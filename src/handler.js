@@ -1,18 +1,9 @@
-// yunita
-
 const { nanoid } = require('nanoid');
 const books = require('./books');
 
 const addBookHandler = (request, h) => {
   const {
-    name,
-    year,
-    author,
-    summary,
-    publisher,
-    pageCount,
-    readPage,
-    reading,
+    name, year, author, summary, publisher, pageCount, readPage, reading,
   } = request.payload;
 
   if (name === undefined) {
@@ -81,7 +72,7 @@ const addBookHandler = (request, h) => {
 };
 
 const getAllBooksHandler = (request, h) => {
-  const { name, reading } = request.query;
+  const { name, reading, finished } = request.query;
 
   let filteredBooks = books;
 
@@ -92,6 +83,10 @@ const getAllBooksHandler = (request, h) => {
 
   if (reading !== undefined) {
     filteredBooks = filteredBooks.filter((book) => book.reading === !!Number(reading));
+  }
+
+  if (finished !== undefined) {
+    filteredBooks = filteredBooks.filter((book) => book.finished === !!Number(finished));
   }
 
   const response = h.response({
